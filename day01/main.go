@@ -53,31 +53,22 @@ func partOne(input [][]int) int {
 
 func partTwo(input [][]int) int {
 	var similarityScore int
-	cache := make(map[int]int)
+	freqMap := make(map[int]int)
+
+	for _, v := range input[1] {
+		freqMap[v]++
+	}
 
 	for _, v := range input[0] {
-		if _, ok := cache[v]; ok {
-			similarityScore += cache[v]
-			continue
-		}
-
-		var count int
-		for _, v2 := range input[1] {
-			if v == v2 {
-				count++
-			}
-		}
-
-		res := v * count
-		cache[v] = res
-		similarityScore += res
+		count := freqMap[v]
+		similarityScore += v * count
 	}
 
 	return similarityScore
 }
 
 func main() {
-	input := parseInput("input.txt")
+	input := parseInput("day01/testinput.txt")
 	if input == nil {
 		return
 	}
