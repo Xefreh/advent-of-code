@@ -18,12 +18,12 @@ func abs(x int) int {
 }
 
 func parseInput(fileName string) [][]int {
-	file, err := os.ReadFile(fileName)
+	data, err := os.ReadFile(fileName)
 	if err != nil {
-		log.Fatalf("Cannot open file. err=%v", err)
+		log.Fatalf("Cannot read file. err=%v", err)
 	}
 
-	lines := strings.Split(strings.TrimSpace(string(file)), "\n")
+	lines := strings.Split(strings.TrimSpace(string(data)), "\n")
 
 	res := make([][]int, 2)
 	for _, line := range lines {
@@ -44,7 +44,7 @@ func parseInput(fileName string) [][]int {
 func partOne(input [][]int) int {
 	var totalDistance int
 
-	for i := 0; i < len(input[0]); i++ {
+	for i := range input[0] {
 		totalDistance += abs(input[0][i] - input[1][i])
 	}
 
