@@ -1,28 +1,14 @@
 package main
 
 import (
+	"advent-of-code/utils"
 	"fmt"
-	"log"
-	"os"
 	"strconv"
 	"strings"
 )
 
-func abs(x int) int {
-	if x < 0 {
-		return -x
-	}
-
-	return x
-}
-
 func parts(tolerate bool) int {
-	data, err := os.ReadFile("day2/input.txt")
-	if err != nil {
-		log.Fatalf("Cannot read file. err=%v", err)
-	}
-
-	lines := strings.Split(string(data), "\n")
+	lines := utils.ReadFile("day2/input.txt")
 
 	var res int
 
@@ -38,7 +24,7 @@ loop:
 		for i, field := range fields {
 			if i > 0 {
 				current, _ := strconv.Atoi(field)
-				diff := abs(old - current)
+				diff := utils.Abs(old - current)
 
 				if diff > 3 {
 					if tolerate && canTolerate {

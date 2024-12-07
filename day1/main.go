@@ -1,29 +1,15 @@
 package main
 
 import (
+	"advent-of-code/utils"
 	"fmt"
-	"log"
-	"os"
 	"slices"
 	"strconv"
 	"strings"
 )
 
-func abs(x int) int {
-	if x < 0 {
-		return -x
-	}
-
-	return x
-}
-
-func parseInput(fileName string) [][]int {
-	data, err := os.ReadFile(fileName)
-	if err != nil {
-		log.Fatalf("Cannot read file. err=%v", err)
-	}
-
-	lines := strings.Split(strings.TrimSpace(string(data)), "\n")
+func parseInput(path string) [][]int {
+	lines := utils.ReadFile(path)
 
 	res := make([][]int, 2)
 	for _, line := range lines {
@@ -41,25 +27,25 @@ func parseInput(fileName string) [][]int {
 	return res
 }
 
-func partOne(input [][]int) int {
+func partOne(list [][]int) int {
 	var totalDistance int
 
-	for i := range input[0] {
-		totalDistance += abs(input[0][i] - input[1][i])
+	for i := range list[0] {
+		totalDistance += utils.Abs(list[0][i] - list[1][i])
 	}
 
 	return totalDistance
 }
 
-func partTwo(input [][]int) int {
+func partTwo(list [][]int) int {
 	var similarityScore int
 	freqMap := make(map[int]int)
 
-	for _, v := range input[1] {
+	for _, v := range list[1] {
 		freqMap[v]++
 	}
 
-	for _, v := range input[0] {
+	for _, v := range list[0] {
 		count := freqMap[v]
 		similarityScore += v * count
 	}
@@ -68,11 +54,11 @@ func partTwo(input [][]int) int {
 }
 
 func main() {
-	input := parseInput("day01/testinput.txt")
-	if input == nil {
+	list := parseInput("day1/input.txt")
+	if list == nil {
 		return
 	}
 
-	fmt.Println(partOne(input))
-	fmt.Println(partTwo(input))
+	fmt.Println(partOne(list))
+	fmt.Println(partTwo(list))
 }
