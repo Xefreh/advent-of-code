@@ -44,7 +44,7 @@ func partTwo(lines []string) int {
 		} else if match[0] == "don't()" {
 			canMultiply = false
 		} else if len(match) > 2 && match[1] != "" && match[2] != "" && canMultiply {
-			x, _ := strconv.Atoi(match[1])
+			x, _ := strconv.Atoi(match[1])	
 			y, _ := strconv.Atoi(match[2])
 
 			res += x * y

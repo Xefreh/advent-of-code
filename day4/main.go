@@ -5,29 +5,29 @@ import (
 	"fmt"
 )
 
-type WordSearch struct {
-	Grid [][]string
+type wordSearch struct {
+	grid [][]rune
 }
 
-func newWordSearch(lines []string) *WordSearch {
-	ws := &WordSearch{}
-	ws.Grid = make([][]string, len(lines))
+func newWordSearch(lines []string) *wordSearch {
+	ws := &wordSearch{}
+	ws.grid = make([][]rune, len(lines))
 
 	for i, line := range lines {
-		ws.Grid[i] = make([]string, len(line))
+		ws.grid[i] = make([]rune, len(line))
 		for j, char := range line {
-			ws.Grid[i][j] = string(char)
+			ws.grid[i][j] = char
 		}
 	}
 
 	return ws
 }
 
-func isValid(ws *WordSearch, row, col int, char string) bool {
-	return row >= 0 && row < len(ws.Grid) && col >= 0 && col < len(ws.Grid[0]) && ws.Grid[row][col] == char
+func isValid(ws *wordSearch, row, col int, char rune) bool {
+	return row >= 0 && row < len(ws.grid) && col >= 0 && col < len(ws.grid[0]) && ws.grid[row][col] == char
 }
 
-func (ws *WordSearch) checkAllDirections(row, col int, word string) int {
+func (ws *wordSearch) checkAllDirections(row, col int, word string) int {
 	directions := [][]int{
 		{0, 1},
 		{0, -1},
@@ -49,7 +49,7 @@ func (ws *WordSearch) checkAllDirections(row, col int, word string) int {
 			currentRow += direction[0]
 			currentCol += direction[1]
 
-			if ok := isValid(ws, currentRow, currentCol, string(word[i])); !ok {
+			if ok := isValid(ws, currentRow, currentCol, rune(word[i])); !ok {
 				match = false
 				break
 			}
@@ -63,13 +63,13 @@ func (ws *WordSearch) checkAllDirections(row, col int, word string) int {
 	return count
 }
 
-func (ws *WordSearch) partOne() {
+func (ws *wordSearch) partOne() {
 	word := "XMAS"
 	var occurrences int
 
-	for row := range ws.Grid {
-		for col := range ws.Grid[row] {
-			if ws.Grid[row][col] == string(word[0]) {
+	for row := range ws.grid {
+		for col := range ws.grid[row] {
+			if ws.grid[row][col] == rune(word[0]) {
 				occurrences += ws.checkAllDirections(row, col, word)
 			}
 		}
@@ -78,15 +78,15 @@ func (ws *WordSearch) partOne() {
 	fmt.Println(occurrences)
 }
 
-func (ws *WordSearch) partTwo() {
+func (ws *wordSearch) partTwo() {
 	word := "MAS"
 	var occurrences int
-	first := string(word[0])
-	last := string(word[len(word)-1])
+	first := rune(word[0])
+	last := rune(word[len(word)-1])
 
-	for row := range ws.Grid {
-		for col := range ws.Grid[row] {
-			if ws.Grid[row][col] == string(word[1]) {
+	for row := range ws.grid {
+		for col := range ws.grid[row] {
+			if ws.grid[row][col] == rune(word[1]) {
 				topLeftBottomRightMAS := isValid(ws, row-1, col-1, first) && isValid(ws, row+1, col+1, last)
 				topRightBottomLeftMAS := isValid(ws, row-1, col+1, first) && isValid(ws, row+1, col-1, last)
 				topLeftBottomRightSAM := isValid(ws, row-1, col-1, last) && isValid(ws, row+1, col+1, first)
