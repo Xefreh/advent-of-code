@@ -22,7 +22,7 @@ func newData(lines []string) *data {
 	for _, line := range lines {
 		if strings.Contains(line, "|") {
 			splits := strings.Split(line, "|")
-
+			
 			x, _ := strconv.Atoi(splits[0])
 			y, _ := strconv.Atoi(splits[1])
 
@@ -45,7 +45,7 @@ func newData(lines []string) *data {
 
 func (d *data) partOne() [][]int {
 	var sum int
-	unorderedUpdates := [][]int{}
+	var badUpdates [][]int
 
 	for _, update := range d.updates {
 		skip := false
@@ -56,7 +56,7 @@ func (d *data) partOne() [][]int {
 
 			for _, x := range mustBefore {
 				if slices.Contains(numbersBefore, x) {
-					unorderedUpdates = append(unorderedUpdates, update)
+					badUpdates = append(badUpdates, update)
 					skip = true
 					break
 				}
@@ -73,13 +73,13 @@ func (d *data) partOne() [][]int {
 	}
 
 	fmt.Println(sum)
-	return unorderedUpdates
+	return badUpdates
 }
 
-func (d *data) partTwo(unorderedUpdates [][]int) {
+func (d *data) partTwo(badUpdates [][]int) {
 	var permutations int
 
-	for _, update := range unorderedUpdates {
+	for _, update := range badUpdates {
 		for i := 0; i < len(update); i++ {
 			mustBefore := d.rules[update[i]]
 
@@ -93,11 +93,11 @@ func (d *data) partTwo(unorderedUpdates [][]int) {
 	}
 
 	if permutations > 0 {
-		d.partTwo(unorderedUpdates)
+		d.partTwo(badUpdates)
 	} else {
 		var res int
 
-		for _, update := range unorderedUpdates {
+		for _, update := range badUpdates {
 			res += update[len(update)/2]
 		}
 
